@@ -2,9 +2,25 @@ defmodule Box do
   use GenServer
   require ForTests
 
+  def start_link(value) do
+    GenServer.start(__MODULE__, value)
+  end
+
+  def push(pid, value) do
+    GenServer.call(pid, {:push, value})
+  end
+
+  def show(pid) do
+    GenServer.call(pid, :show)
+  end
+
+  def purge(pid) do
+    GenServer.call(pid, :purge)
+  end
+
   @impl true
-  def init([]) do
-    {:ok, []}
+  def init(val \\ []) do
+    {:ok, val}
   end
 
   @impl true
@@ -17,7 +33,7 @@ defmodule Box do
     ForTests.only_test do
       IO.inspect(state)
     end
-    {:reply, :ok, state}
+    {:reply, state, state}
   end
 
   @impl true

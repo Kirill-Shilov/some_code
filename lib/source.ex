@@ -1,6 +1,22 @@
 defmodule Source do
   use GenServer
 
+  def start_link({values, even, odd}) do
+    GenServer.start_link(__MODULE__, {values, even, odd})
+  end
+
+  def split(pid) do
+    GenServer.call(pid, :split)
+  end
+
+  def new(pid, value) do
+    GenServer.call(pid, {:new, value})
+  end
+
+  def purge(pid) do
+    GenServer.call(pid, :purge)
+  end
+
   @impl true
   def init({values, even, odd}) do
     {:ok, {values, even, odd}}
