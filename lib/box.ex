@@ -1,5 +1,6 @@
-defmodule Odd do
+defmodule Box do
   use GenServer
+  require ForTests
 
   @impl true
   def init([]) do
@@ -13,7 +14,9 @@ defmodule Odd do
 
   @impl true
   def handle_call(:show, _, state) do
-    IO.inspect(state)
+    ForTests.only_test do
+      IO.inspect(state)
+    end
     {:reply, :ok, state}
   end
 
